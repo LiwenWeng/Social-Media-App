@@ -1,0 +1,29 @@
+body {
+    background-color: rgb(22, 22, 22);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#scroll-container {
+    width: 100vw;
+    height: 100vh;
+
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    scroll-behavior: auto;
+    scrollbar-width: none;
+}
+
+.section {
+    scroll-snap-align: start;
+    position: relative;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 3rem;
+    color: #fff;
+}
