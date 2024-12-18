@@ -1,6 +1,6 @@
 body {
     background-color: rgb(43, 43, 43);
-    background-image: url(wavy-black-white-background.jpg);
+    background-image: url(assets/wavy-black-white-background.jpg);
     background-size: cover;
     margin: 0;
     padding: 0;
@@ -80,6 +80,28 @@ h3 {
     z-index: 1;
 }
 
-.dot-container {
-    
+#dot-container {
+    margin-top: 2%;
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+}
+
+.dot {
+    width: 0.7vmin;
+    height: 0.7vmin;
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 3px rgba(255, 255, 255, 0.6);
+    position: relative;
+    margin-right: 0.5vmin;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    z-index: 20;
+}
+
+.dot.active {
+    width: 1vmin;
+    height: 1vmin;
+    background-color: white;
 }
