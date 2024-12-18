@@ -16,19 +16,20 @@ const photosByAlbums = photosPromise.then(photos =>
     )
 )
 
-export function getAlbum(albumId) {
-    return albumsPromise.then(albums => albums[albumId - 1]);
+export async function getAlbum(albumId) {
+    const albums = await albumsPromise;
+    return albums[albumId - 1];
 }
 
-export function getUser(userId) {
-    return usersPromise.then(users => users[userId - 1]);
+export async function getUser(userId) {
+    const users = await usersPromise;
+    return users[userId - 1];
 }
 
-export function getPhotosForAlbum(albumId) {
-    return photosByAlbums.then(albums => {
-        const photos = albums[albumId - 1];
-        const randomLength = Math.floor(Math.random() * 10) + 1;
-        const shuffledPhotos = photos.sort(() => Math.random() - 0.5);
-        return shuffledPhotos.slice(0, randomLength);
-    })
+export async function getPhotosForAlbum(albumId) {
+    const albums = await photosByAlbums;
+    const photos = albums[albumId - 1];
+    const randomLength = Math.floor(Math.random() * 10) + 1;
+    const shuffledPhotos = photos.sort(() => Math.random() - 0.5);
+    return shuffledPhotos.slice(0, randomLength);
 }

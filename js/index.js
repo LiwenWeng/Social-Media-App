@@ -25,7 +25,7 @@ function setupSection(id, section) {
             title.textContent = photos[i].title;
             title.classList.add("title");
             slide.appendChild(title);
-    
+            
             section.appendChild(slide);
         }
     });
@@ -51,7 +51,7 @@ function init() {
         scrollContainer.appendChild(section);
     }
 
-    scrollContainer.addEventListener('scroll', () => {
+    scrollContainer.addEventListener("scroll", () => {
         const scrollPosition = scrollContainer.scrollTop; 
         const slideWidth = scrollContainer.offsetHeight;
         const currentSection = Math.floor(scrollPosition / slideWidth) + 1;
@@ -60,9 +60,9 @@ function init() {
         albumPromise.then(album => {
             const userPromise = getUser(album.userId);
             userPromise.then(user => {
-            document.querySelector(".author").textContent = `Author: ${user.name}`;
-        });
-        });
+                document.querySelector(".author").textContent = `Author: ${user.name}`;
+            });
+        }); 
     });
 }
 
