@@ -47,7 +47,7 @@ body {
 }
 
 .slide {
-    scroll-snap-align: center;
+    scroll-snap-align: start;
     display: inline-flex;
     align-items: center;
     position: relative;
