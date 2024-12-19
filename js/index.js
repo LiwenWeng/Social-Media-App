@@ -4,6 +4,7 @@ const scrollContainer = document.querySelector("#scroll-container");
 const dotContainer = document.querySelector("#dot-container");
 
 const data = new Map();
+const activeSlide = new Map();
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -17,6 +18,7 @@ function setupSection(n, id, section) {
 
     photosPromise.then(photos => {
         data.set(n, photos.length);
+        activeSlide.set(n, 0);
         for (const i in photos) {
             const slide = document.createElement("div");
             slide.classList.add("slide");
@@ -34,6 +36,7 @@ function setupSection(n, id, section) {
         }
 
         if (n === 0) {
+            if (data.get(0) === 1) return;
             for (let j = 0; j < data.get(0); j++) {
                 const dot = document.createElement("div");
                 dot.classList.add("dot");
@@ -62,6 +65,7 @@ function setupSection(n, id, section) {
         if (previousSlide !== currentSlide) {
             children[currentSlide].classList.add("active");
             children[previousSlide].classList.remove("active");
+            activeSlide.set(n+1, currentSlide);
         }
     })
 
@@ -105,7 +109,7 @@ function init() {
             for (let i = 0; i < data.get(currentSection-1); i++) {
                 const dot = document.createElement("div");
                 dot.classList.add("dot");
-                if (i === 0) dot.classList.add("active");
+                if (i === activeSlide.get(currentSection)) dot.classList.add("active");
                 dotContainer.appendChild(dot);
             }
         }
