@@ -5,6 +5,7 @@ const dotContainer = document.querySelector("#dot-container");
 
 const data = new Map();
 const activeSlide = new Map();
+let currentSection = 0;
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -13,11 +14,49 @@ function shuffleArray(array) {
     }
 }
 
+function createInteractionBar() {
+    const interactionBar = document.createElement("div");
+    interactionBar.id = "interaction-bar";
+
+    const heartContainer = document.createElement("div");
+    heartContainer.classList.add("heart-container");
+    heartContainer.onclick = () => {
+        svg.classList.toggle("filled");
+        data.get(currentSection).liked = svg.classList.contains("filled");
+    }
+    
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.classList.add("heart-icon");
+    heartContainer.appendChild(svg);
+
+    const heartPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    heartPath.setAttribute(
+        "d",
+        "M20.8 4.6c-2.3-2.3-6-2.3-8.3 0L12 5.1l-.5-.5c-2.3-2.3-6-2.3-8.3 0s-2.3 6 0 8.3l8.3 8.3 8.3-8.3c2.3-2.3 2.3-6 0-8.3z"
+    );
+    svg.appendChild(heartPath);
+
+    const commentIcon = document.createElement("img");
+    commentIcon.src = "assets/comment.png"
+    commentIcon.classList.add("comment-icon");
+
+    const shareIcon = document.createElement("img");
+    shareIcon.src = "assets/share.png"
+    shareIcon.classList.add("share-icon");
+
+    interactionBar.appendChild(heartContainer);
+    interactionBar.appendChild(commentIcon);
+    interactionBar.appendChild(shareIcon);
+    return interactionBar;
+}
+
 function setupSection(n, id, section) {
     const photosPromise = getPhotosForAlbum(id);
 
     photosPromise.then(photos => {
-        data.set(n, photos.length);
+        data.set(n, { len: photos.length, liked: false });
         activeSlide.set(n, 0);
         for (const i in photos) {
             const slide = document.createElement("div");
@@ -36,8 +75,8 @@ function setupSection(n, id, section) {
         }
 
         if (n === 0) {
-            if (data.get(0) === 1) return;
-            for (let j = 0; j < data.get(0); j++) {
+            if (data.get(0).len === 1) return;
+            for (let j = 0; j < data.get(0).len; j++) {
                 const dot = document.createElement("div");
                 dot.classList.add("dot");
                 if (j === 0) dot.classList.add("active");
@@ -87,8 +126,9 @@ function init() {
         scrollContainer.appendChild(section);
     }
 
+    scrollContainer.appendChild(createInteractionBar());
+
     let previousSection = 0;
-    let currentSection = 0;
     scrollContainer.addEventListener("scroll", () => {
         const scrollPosition = scrollContainer.scrollTop; 
         const slideHeight = scrollContainer.offsetHeight;
@@ -105,12 +145,19 @@ function init() {
 
         if (currentSection !== previousSection) {
             dotContainer.innerHTML = "";
-            if (data.get(currentSection-1) === 1) return;
-            for (let i = 0; i < data.get(currentSection-1); i++) {
+            if (data.get(currentSection-1).len === 1) return;
+            for (let i = 0; i < data.get(currentSection-1).len; i++) {
                 const dot = document.createElement("div");
                 dot.classList.add("dot");
                 if (i === activeSlide.get(currentSection)) dot.classList.add("active");
                 dotContainer.appendChild(dot);
+            }
+            
+            const heartIcon = document.querySelector(".heart-icon");
+            if (data.get(currentSection).liked) {
+                heartIcon.classList.add("filled");
+            } else {
+                heartIcon.classList.remove("filled");
             }
         }
     });
