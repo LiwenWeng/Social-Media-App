@@ -39,11 +39,11 @@ function createInteractionBar() {
     svg.appendChild(heartPath);
 
     const commentIcon = document.createElement("img");
-    commentIcon.src = "assets/comment.png"
+    commentIcon.src = "https://liwenweng.github.io/Social-Media-App/assets/comment.png"
     commentIcon.classList.add("comment-icon");
 
     const shareIcon = document.createElement("img");
-    shareIcon.src = "assets/share.png"
+    shareIcon.src = "https://liwenweng.github.io/Social-Media-App/assets/share.png"
     shareIcon.classList.add("share-icon");
 
     interactionBar.appendChild(heartContainer);
